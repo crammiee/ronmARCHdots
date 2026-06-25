@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
+# Containers run as root without sudo
+[ "$(id -u)" = "0" ] && sudo() { "$@"; }
+
 if [ -n "$USE_HTTPS" ]; then
     REPO="https://github.com/crammiee/ronmARCHdots.git"
 else
@@ -62,6 +65,62 @@ if [ "$SHELL" != "$(which zsh)" ]; then
         echo "$ZSH_PATH" | sudo tee -a /etc/shells
     fi
     chsh -s "$ZSH_PATH"
+fi
+
+# --- packages ---
+
+if command -v pacman &>/dev/null && [ -z "$SKIP_PACKAGES" ]; then
+    if ! command -v whiptail &>/dev/null; then
+        sudo pacman -S --needed --noconfirm libnewt
+    fi
+
+    CHOICES=$(whiptail --title "Package Installation" --checklist \
+        "Space to toggle, Enter to confirm:" 28 72 17 \
+        "base-devel"              "Build tools (gcc, make, etc.)"   ON  \
+        "git"                     "Version control"                  ON  \
+        "tmux"                    "Terminal multiplexer"             ON  \
+        "vim"                     "Vi IMproved"                      ON  \
+        "neovim"                  "Neovim"                           ON  \
+        "docker"                  "Container runtime"                ON  \
+        "docker-compose"          "Docker Compose"                   ON  \
+        "nodejs"                  "Node.js runtime"                  ON  \
+        "npm"                     "Node package manager"             ON  \
+        "python"                  "Python 3"                         ON  \
+        "python-pip"              "Python pip"                       ON  \
+        "rustup"                  "Rust toolchain manager"           ON  \
+        "ttf-jetbrains-mono-nerd" "JetBrains Mono Nerd Font"        ON  \
+        "noto-fonts-emoji"        "Noto emoji fonts"                 ON  \
+        "firefox"                 "Firefox browser"                  ON  \
+        "rofi"                    "App launcher"                     ON  \
+        "dunst"                   "Notification daemon"              ON  \
+        3>&1 1>&2 2>&3) || true
+
+    if [ -n "$CHOICES" ]; then
+        if ! command -v paru &>/dev/null; then
+            echo "Installing paru AUR helper..."
+            sudo pacman -S --needed --noconfirm base-devel git
+            PARU_TMP=$(mktemp -d)
+            git clone https://aur.archlinux.org/paru.git "$PARU_TMP"
+            (cd "$PARU_TMP" && makepkg -si --noconfirm)
+            rm -rf "$PARU_TMP"
+        fi
+
+        for pkg in $CHOICES; do
+            paru -S --needed --noconfirm "${pkg//\"/}"
+        done
+
+        if echo "$CHOICES" | grep -q '"docker"'; then
+            sudo systemctl enable --now docker
+            sudo usermod -aG docker "$USER"
+            echo "Note: log out and back in for docker group to take effect."
+        fi
+
+        if echo "$CHOICES" | grep -q '"rustup"'; then
+            rustup default stable
+        fi
+    else
+        echo "No packages selected, skipping."
+    fi
 fi
 
 # --- dotfiles ---
