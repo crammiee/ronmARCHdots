@@ -1,10 +1,13 @@
 name: test install
 on: [push]
 jobs:
-  install:
+  install-arch:
     runs-on: ubuntu-latest
+    container: archlinux:latest
     steps:
       - uses: actions/checkout@v4
+      - run: pacman -Sy --noconfirm git curl which
       - run: bash install.sh
         env:
           USE_HTTPS: "1"
+          SKIP_PACKAGES: "1"
