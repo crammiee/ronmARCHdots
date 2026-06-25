@@ -57,7 +57,11 @@ fi
 
 if [ "$SHELL" != "$(which zsh)" ]; then
     echo "Setting zsh as default shell..."
-    chsh -s "$(which zsh)"
+    ZSH_PATH="$(which zsh)"
+    if ! grep -qx "$ZSH_PATH" /etc/shells; then
+        echo "$ZSH_PATH" | sudo tee -a /etc/shells
+    fi
+    chsh -s "$ZSH_PATH"
 fi
 
 # --- dotfiles ---
