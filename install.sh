@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-REPO="git@github.com:crammiee/ronmARCHdots.git"
+if [ -n "$USE_HTTPS" ]; then
+    REPO="https://github.com/crammiee/ronmARCHdots.git"
+else
+    REPO="git@github.com:crammiee/ronmARCHdots.git"
+fi
 DOTFILES="$HOME/.dotfiles"
 BACKUP="$HOME/.dotfiles-backup"
 
