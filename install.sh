@@ -142,7 +142,12 @@ dots config core.sparseCheckout true
     echo "!README.md"
     echo "!install.sh"
     echo "!uninstall.sh"
+    echo "!dots-ignore"
 } > "$DOTFILES/info/sparse-checkout"
+
+if [ -f "$DOTFILES/dots-ignore" ]; then
+    cat "$DOTFILES/dots-ignore" >> "$DOTFILES/info/exclude"
+fi
 
 dots checkout 2>/dev/null || {
     echo "Backing up conflicting files to $BACKUP..."
