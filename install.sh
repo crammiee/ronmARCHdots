@@ -158,4 +158,10 @@ dots checkout 2>/dev/null || {
     dots checkout
 }
 
+if [ ! -f ~/.secrets ]; then
+  touch ~/.secrets
+  chmod 600 ~/.secrets
+  echo "Created ~/.secrets — add your secrets there"
+fi
+
 echo "Done! Restart your shell or run: source ~/.zshrc"
