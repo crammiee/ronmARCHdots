@@ -159,7 +159,10 @@ dots checkout 2>/dev/null || {
 }
 
 if [ ! -f ~/.secrets ]; then
-  touch ~/.secrets
+  cat > ~/.secrets << 'EOF'
+# Secrets — do not commit this file
+# GITHUB_PAT=
+EOF
   chmod 600 ~/.secrets
   echo "Created ~/.secrets — add your secrets there"
 fi
