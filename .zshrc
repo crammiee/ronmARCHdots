@@ -118,7 +118,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 alias dots='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias ytv='yt-dlp -f "best"'
 export PATH="$HOME/.local/bin:$PATH"
 
 # opencode
@@ -132,3 +131,6 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 export LC_ALL=en_US.UTF-8
+
+# secrets
+[ -f ~/.secrets ] && source ~/.secrets
