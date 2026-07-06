@@ -134,3 +134,6 @@ export LC_ALL=en_US.UTF-8
 
 # secrets
 [ -f ~/.secrets ] && source ~/.secrets
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)
