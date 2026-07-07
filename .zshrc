@@ -135,5 +135,9 @@ export LC_ALL=en_US.UTF-8
 # secrets
 [ -f ~/.secrets ] && source ~/.secrets
 
+# yt-dlp: force H.264/mp4 (avoids AV1, which opencv-python can't decode
+# without hardware accel / GPU passthrough -- see subshots CLAUDE.md)
+alias yt-mp4='yt-dlp -S "vcodec:h264" --merge-output-format mp4 -o "%(title)s.%(ext)s"'
+
 # Load Angular CLI autocompletion.
 source <(ng completion script)
