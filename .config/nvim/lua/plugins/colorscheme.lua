@@ -19,6 +19,8 @@ return {
         vim.api.nvim_set_hl(0, "SnacksPickerPathHidden", { fg = "#a6a69c" })
         -- muted gold - gitignored, distinct hue from both of the above
         vim.api.nvim_set_hl(0, "SnacksPickerPathIgnored", { fg = "#938056" })
+        -- dirname of a path - muted gray, matches the Comment fix below
+        vim.api.nvim_set_hl(0, "SnacksPickerDir", { fg = "#727169" })
 
         -- Comment (shComment, DiagnosticUnnecessary, etc. all link here):
         -- swap arrakisBg2 for Kanagawa's own dedicated comment gray, which
