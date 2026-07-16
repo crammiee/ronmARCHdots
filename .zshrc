@@ -142,3 +142,4 @@ alias yt-mp4='yt-dlp -S "vcodec:h264" --merge-output-format mp4 -o "%(title)s.%(
 # Load Angular CLI autocompletion.
 source <(ng completion script)
 
+export PATH="$HOME/.cargo/bin:$PATH"
