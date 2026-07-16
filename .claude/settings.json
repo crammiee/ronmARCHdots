@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"/home/canete/.claude/hooks/context-mode-cache-heal.mjs\""
+            "command": "\"$HOME/.claude/hooks/context-mode-cache-heal.mjs\""
           }
         ]
       }
@@ -24,7 +24,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "context-mode statusline"
+    "command": "bash ~/.claude/statusline-command.sh"
   },
   "enabledPlugins": {
     "figma@claude-plugins-official": true,
